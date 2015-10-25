@@ -21,13 +21,16 @@
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'Simple HTML block';
-$string['simplehtml'] = 'Simple HTML';
-$string['simplehtml:addinstance'] = 'Add a new simple HTML block';
-$string['simplehtml:myaddinstance'] = 'Add a new simple HTML block to the My Moodle page';
-$string['blockstring'] = 'Main text';
-$string['blocktitle'] = 'Block title';
-$string['headerconfig'] = 'Header Config';
-$string['descconfig'] = 'To configure Header globally';
-$string['labelallowhtml'] = 'Allow HTML';
-$string['descallowhtml'] = 'To enable or disable the use of HTML';
+
+$settings->add(new admin_setting_heading(
+        'headerconfig',
+        get_string('headerconfig', 'block_simplehtml'),
+        get_string('descconfig', 'block_simplehtml')
+    ));
+
+$settings->add(new admin_setting_configcheckbox(
+        'simplehtml/Allow_HTML',
+        get_string('labelallowhtml', 'block_simplehtml'),
+        get_string('descallowhtml', 'block_simplehtml'),
+        '0'
+    ));
