@@ -31,3 +31,4 @@ $string['headerconfig'] = 'Header Config';
 $string['descconfig'] = 'To configure Header globally';
 $string['labelallowhtml'] = 'Allow HTML';
 $string['descallowhtml'] = 'To enable or disable the use of HTML';
+$string['textfields'] = 'Header text field';
