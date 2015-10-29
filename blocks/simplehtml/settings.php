@@ -15,9 +15,9 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 5.
+ * "To Do" homework from Moodle Dev course - Unit 7.
  *
- * @package block/unit-7-todo
+ * @package block/simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

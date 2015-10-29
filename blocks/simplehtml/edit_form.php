@@ -15,9 +15,9 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 5.
+ * "To Do" homework from Moodle Dev course - Unit 7.
  *
- * @package block/unit-7-todo
+ * @package block/simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -38,6 +38,5 @@ class block_simplehtml_edit_form extends block_edit_form {
         $mform->addElement('text', 'config_text', get_string('blockstring', 'block_simplehtml'));
         $mform->setDefault('config_text', 'default value');
         $mform->setType('config_text', PARAM_RAW);
-
     }
 }

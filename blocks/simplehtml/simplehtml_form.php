@@ -15,9 +15,9 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 5.
+ * "To Do" homework from Moodle Dev course - Unit 7.
  *
- * @package block/unit-7-todo
+ * @package block/simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,6 +31,12 @@ class simplehtml_form extends moodleform {
 
         $mform =& $this->_form;
 
-        //$mform->addElement('header', 'displayinfo', get_string('textfields', 'block_simplehtml'));
+        // add group for text areas
+        $mform->addElement('header', 'displayinfo', get_string('textfields', 'block_simplehtml'));
+
+        // add page title element
+        $mform->addElement('text','pagetitle', get_string('formtitle','block_simplehtml'));
+        $mform->addRule('pagetitle', null, 'required', null, 'client');
+        $mform->setType('pagetitle', PARAM_RAW);
     }
 }

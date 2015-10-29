@@ -15,9 +15,9 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 5.
+ * "To Do" homework from Moodle Dev course - Unit 7.
  *
- * @package block/unit-7-todo
+ * @package block/simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,7 +26,7 @@
  * The simplehtml block class.
  */
 
-class block_simplehtml extends block_base {
+class block_simplehtml extends block_list {
 
     public function init() {
         $this->title = get_string ( 'simplehtml', 'block_simplehtml' );
@@ -37,7 +37,11 @@ class block_simplehtml extends block_base {
             return $this->content;
         }
 
+        global $COURSE, $CFG;
+
         $this->content = new stdClass ();
+        $this->content->items  = array();
+        $this->content->icons  = array();
 
         if (empty ( $this->config->text )) {
             $this->content->text = get_string ( 'defaulttext', 'block_simplehtml' );
@@ -48,6 +52,10 @@ class block_simplehtml extends block_base {
                 $this->content->text = strip_tags( $this->config->text );
             }
         }
+
+        $currenturl = $CFG->wwwroot . '/blocks/simplehtml';
+        $this->content->items[] = html_writer::tag('a', 'Form test', array(
+                'href' => $currenturl .'/view.php?id=' . $COURSE->id));
 
         $this->content->footer = 'Footer here...';
 
@@ -68,7 +76,7 @@ class block_simplehtml extends block_base {
         }
     }
 
-    function has_config() {
+    public function has_config() {
         return true;
     }
 

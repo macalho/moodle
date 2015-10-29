@@ -15,9 +15,9 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 5.
+ * "To Do" homework from Moodle Dev course - Unit 7.
  *
- * @package block/unit-7-todo
+ * @package block/simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,4 +31,13 @@ $string['headerconfig'] = 'Header Config';
 $string['descconfig'] = 'To configure Header globally';
 $string['labelallowhtml'] = 'Allow HTML';
 $string['descallowhtml'] = 'To enable or disable the use of HTML';
-$string['textfields'] = 'Header text field';
+$string['headerpage'] = 'Simple HTML Form test';
+$string['defaulttext'] = 'Main text 2';
+$string['invalidcourse'] = 'Invalid course ID';
+
+// Form strings
+$string['textfields'] = 'Displayed on Page';
+$string['formtitle'] = 'Title of the Page';
+
+// Event strings
+$string['page_added'] = 'A new page was added';
