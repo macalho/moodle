@@ -15,9 +15,9 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 7.
+ * The simplehtml block version file.
  *
- * @package block/simplehtml
+ * @package block_simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 201510161801;
-$plugin->requires  = 2010112400;
+$plugin->requires  = 2013111800;
 $plugin->cron      = 0;
 $plugin->component = 'block_simplehtml';
 $plugin->maturity  = MATURITY_STABLE;

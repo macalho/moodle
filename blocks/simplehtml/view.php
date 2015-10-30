@@ -15,9 +15,9 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 7.
+ * The form page to process the creation of a simple html page.
  *
- * @package block/simplehtml
+ * @package block_simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,25 +27,44 @@ require_once('simplehtml_form.php');
 
 global $CFG, $DB, $USER;
 
-$courseid = required_param('id', PARAM_INT);
+$blockid = required_param('blockid', PARAM_INT);
+$courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
 require_login($course);
 
-$url = new moodle_url($CFG->wwwroot . '/blocks/simplehtml/view.php?id=' . $courseid);
-$PAGE->set_url($url, array('id' => $courseid));
+$url = new moodle_url($CFG->wwwroot . '/blocks/simplehtml/view.php');
+$PAGE->set_url($url, array('blockid' => $blockid, 'courseid' => $courseid));
 $PAGE->set_title(get_string ('formtitle', 'block_simplehtml'));
 $PAGE->set_heading(get_string ('headerpage', 'block_simplehtml'));
 
 $simplehtmlform = new simplehtml_form();
 
+$toform['blockid'] = $blockid;
+$toform['courseid'] = $courseid;
+$simplehtmlform->set_data($toform);
+
 // Form state control
 if ($simplehtmlform->is_cancelled()) {
     // Cancelled forms redirect to course main page
-    redirect("$CFG->wwwroot . '/course/view.php?id=' . $courseid");
+    redirect(new moodle_url($CFG->wwwroot . '/course/view.php?id=' . $courseid));
 } else if ($fromform = $simplehtmlform->get_data()) {
     // Submitted data has been validated, we can store it now
-    redirect("$CFG->wwwroot . '/course/view.php?id=' . $courseid");
+    $lastinsertid = $DB->insert_record('block_simplehtml', $fromform, true);
+
+    // Create and dispatching the event to log the insert on the database
+    $event = \block_simplehtml\event\page_added::create ( array (
+            // 'context' value is needed by \core\event\base
+            'context' => context_course::instance($courseid),
+            'userid' => $USER->id,
+            'objectid' => $lastinsertid,
+            'courseid' => $courseid,
+            'other' => array('triggeredfrom' => get_string('triggeredfrom', 'block_simplehtml'))
+    ));
+    $event->trigger();
+
+    // Redirect after save the data
+    redirect(new moodle_url($CFG->wwwroot . '/course/view.php?id=' . $courseid));
 } else {
     // Form didn't validate or this is the first display
     echo $OUTPUT->header();

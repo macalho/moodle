@@ -15,12 +15,13 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 7.
+ * Simple html block capabilities.
  *
- * @package block/simplehtml
+ * @package block_simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 $capabilities = array (
 
         'block/simplehtml:myaddinstance' => array (

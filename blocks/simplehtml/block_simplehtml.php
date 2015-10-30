@@ -15,17 +15,20 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 7.
+ * A block which displays simple html pages.
  *
- * @package block/simplehtml
+ * @package block_simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * The simplehtml block class.
+ * The simplehtml block class definition.
+ *
+ * @package    block_simplehtml
+ * @copyright  2015 Marcelo Carvalho
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class block_simplehtml extends block_list {
 
     public function init() {
@@ -53,9 +56,9 @@ class block_simplehtml extends block_list {
             }
         }
 
-        $currenturl = $CFG->wwwroot . '/blocks/simplehtml';
+        $url = $CFG->wwwroot . '/blocks/simplehtml';
         $this->content->items[] = html_writer::tag('a', 'Form test', array(
-                'href' => $currenturl .'/view.php?id=' . $COURSE->id));
+                'href' => $url .'/view.php?blockid=' . $this->instance->id . '&courseid='. $COURSE->id));
 
         $this->content->footer = 'Footer here...';
 

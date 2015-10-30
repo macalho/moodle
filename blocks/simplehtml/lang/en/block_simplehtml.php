@@ -15,29 +15,46 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * "To Do" homework from Moodle Dev course - Unit 7.
+ * Strings for the simplehtml block, language 'en'.
  *
- * @package block/simplehtml
+ * @package block_simplehtml
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+// Default base strings
 $string['pluginname'] = 'Simple HTML block';
 $string['simplehtml'] = 'Simple HTML';
 $string['simplehtml:addinstance'] = 'Add a new simple HTML block';
 $string['simplehtml:myaddinstance'] = 'Add a new simple HTML block to the My Moodle page';
-$string['blockstring'] = 'Main text';
-$string['blocktitle'] = 'Block title';
-$string['headerconfig'] = 'Header Config';
-$string['descconfig'] = 'To configure Header globally';
+$string['defaulttext'] = 'default value';
+
+// Config form (edit_form.php) strings
+$string['configtitle'] = 'Change block title';
+$string['configtext'] = 'Change block text content';
+
+// Global admin config form (settings.php) strings
+$string['headerconfig'] = 'Change header text';
+$string['descconfig'] = 'To configure header of all block instances';
 $string['labelallowhtml'] = 'Allow HTML';
 $string['descallowhtml'] = 'To enable or disable the use of HTML';
-$string['headerpage'] = 'Simple HTML Form test';
-$string['defaulttext'] = 'Main text 2';
-$string['invalidcourse'] = 'Invalid course ID';
 
-// Form strings
+// Page form strings
+$string['formtitle'] = 'Simple HTML Form Page';
+$string['headerpage'] = 'Simple HTML Form';
 $string['textfields'] = 'Displayed on Page';
-$string['formtitle'] = 'Title of the Page';
+$string['displaytext'] = 'Displayed HTML';
+$string['displayfile'] = 'Display File';
+$string['picturefields'] = 'Picture Fields';
+$string['displaypicture'] = 'Display Picture';
+$string['blue'] = 'Blue';
+$string['red'] = 'Red';
+$string['green'] = 'Green';
+$string['pictureselect'] = 'Select a Picture to Display';
+$string['picturedesc'] = 'Describe the picture you selected';
+$string['displaydate'] = 'Display Date';
+$string['triggeredfrom'] = 'Submit button in a simple html form';
 
 // Event strings
 $string['page_added'] = 'A new page was added';
+$string['eventpageadded'] = 'Page Added';
