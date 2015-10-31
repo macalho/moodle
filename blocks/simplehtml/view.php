@@ -59,7 +59,10 @@ if ($simplehtmlform->is_cancelled()) {
             'userid' => $USER->id,
             'objectid' => $lastinsertid,
             'courseid' => $courseid,
-            'other' => array('triggeredfrom' => get_string('triggeredfrom', 'block_simplehtml'))
+            'other' => array(
+                    'blockid' => $blockid,
+                    'triggeredfrom' => get_string('triggeredfrom', 'block_simplehtml')
+            )
     ));
     $event->trigger();
 

@@ -77,7 +77,7 @@ class page_added extends \core\event\base {
      */
     public function get_url() {
         return new \moodle_url('/blocks/simplehtml/view.php', array(
-                'blockid'   => $this->objectid,
+                'blockid'   => $this->other['blockid'],
                 'courseid'  => $this->courseid
         ));
     }
@@ -91,7 +91,9 @@ class page_added extends \core\event\base {
     protected function validate_data() {
         parent::validate_data();
 
-        if (!isset($this->other['triggeredfrom'])) {
+        if (!isset($this->other['blockid'])) {
+            throw new \coding_exception('The \'blockid\' value must be set in other.');
+        } else if (!isset($this->other['triggeredfrom'])) {
             throw new \coding_exception('The \'triggeredfrom\' value must be set in other.');
         }
     }
