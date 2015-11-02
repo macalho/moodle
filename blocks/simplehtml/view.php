@@ -49,6 +49,15 @@ if ($simplehtmlform->is_cancelled()) {
     // Cancelled forms redirect to course main page
     redirect(new moodle_url($CFG->wwwroot . '/course/view.php?id=' . $courseid));
 } else if ($fromform = $simplehtmlform->get_data()) {
+    // Handling the 'displaytext' element data, it came as array,
+    // we must separate before store it or insert_record can't find the data correctly
+    $fromform->format = $fromform->displaytext['format'];
+    $fromform->displaytext = $fromform->displaytext['text'];
+
+    // Get the file name to store it
+    $name = $simplehtmlform->get_new_filename('filename');
+    $fromform->filename = $name;
+
     // Submitted data has been validated, we can store it now
     $lastinsertid = $DB->insert_record('block_simplehtml', $fromform, true);
 

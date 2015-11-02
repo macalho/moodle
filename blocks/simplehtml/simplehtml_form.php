@@ -53,7 +53,7 @@ class simplehtml_form extends moodleform {
         $mform->setType('displaytext', PARAM_RAW);
 
         // Add filename selection
-        $mform->addElement('filepicker', 'displayfile', get_string('displayfile', 'block_simplehtml'), null,
+        $mform->addElement('filepicker', 'filename', get_string('displayfile', 'block_simplehtml'), null,
                 array('maxbytes'        => $maxbytes,
                       'accepted_types'  => '*',
                       'courseid'        => $COURSE->id

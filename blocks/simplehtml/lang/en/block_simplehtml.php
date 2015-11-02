@@ -53,7 +53,7 @@ $string['green'] = 'Green';
 $string['pictureselect'] = 'Select a Picture to Display';
 $string['picturedesc'] = 'Describe the picture you selected';
 $string['displaydate'] = 'Display Date';
-$string['triggeredfrom'] = 'Submit button in a simple html form';
+$string['triggeredfrom'] = 'Simple HTML page form';
 
 // Event strings
 $string['page_added'] = 'A new page was added';
