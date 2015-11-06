@@ -27,7 +27,8 @@ $string['pluginname'] = 'Simple HTML block';
 $string['simplehtml'] = 'Simple HTML';
 $string['simplehtml:addinstance'] = 'Add a new simple HTML block';
 $string['simplehtml:myaddinstance'] = 'Add a new simple HTML block to the My Moodle page';
-$string['defaulttext'] = 'default value';
+$string['defaulttext'] = 'List of pages:';
+$string['defaulvalue'] = 'Enter some text';
 
 // Config form (edit_form.php) strings
 $string['configtitle'] = 'Change block title';

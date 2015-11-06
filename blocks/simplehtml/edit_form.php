@@ -38,12 +38,12 @@ class block_simplehtml_edit_form extends block_edit_form {
 
         // A sample string variable for the title with a default value.
         $mform->addElement('text', 'config_title', get_string('configtitle', 'block_simplehtml'));
-        $mform->setDefault('config_title', get_string('defaulttext', 'block_simplehtml'));
+        $mform->setDefault('config_title', get_string('defaulvalue', 'block_simplehtml'));
         $mform->setType('config_title', PARAM_TEXT);
 
         // A sample string variable for the main content with a default value
         $mform->addElement('text', 'config_text', get_string('configtext', 'block_simplehtml'));
-        $mform->setDefault('config_text', get_string('defaulttext', 'block_simplehtml'));
+        $mform->setDefault('config_text', get_string('defaulvalue', 'block_simplehtml'));
         $mform->setType('config_text', PARAM_RAW);
     }
 }

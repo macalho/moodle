@@ -29,9 +29,14 @@ global $CFG, $DB, $USER;
 
 $blockid = required_param('blockid', PARAM_INT);
 $courseid = required_param('courseid', PARAM_INT);
+$id = optional_param('id', 0, PARAM_INT);
+
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$context = context_course::instance($courseid);
 
 require_login($course);
+
+require_capability('block/simplehtml:viewpages', $context);
 
 $url = new moodle_url($CFG->wwwroot . '/blocks/simplehtml/view.php');
 $PAGE->set_url($url, array('blockid' => $blockid, 'courseid' => $courseid));
@@ -39,10 +44,7 @@ $PAGE->set_title(get_string ('formtitle', 'block_simplehtml'));
 $PAGE->set_heading(get_string ('headerpage', 'block_simplehtml'));
 
 $simplehtmlform = new simplehtml_form();
-
-$toform['blockid'] = $blockid;
-$toform['courseid'] = $courseid;
-$simplehtmlform->set_data($toform);
+$maxbytes = 2097152;
 
 // Form state control
 if ($simplehtmlform->is_cancelled()) {
@@ -54,9 +56,11 @@ if ($simplehtmlform->is_cancelled()) {
     $fromform->format = $fromform->displaytext['format'];
     $fromform->displaytext = $fromform->displaytext['text'];
 
-    // Get the file name to store it
-    $name = $simplehtmlform->get_new_filename('filename');
-    $fromform->filename = $name;
+    // Saving the uploaded files
+    file_save_draft_area_files($fromform->attachments, $context->id, 'block_simplehtml', 'page',
+            0, array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 5));
+    // Saving the id of the file area where the files was stored
+    $fromform->fileareaid = file_get_submitted_draft_itemid('attachments');
 
     // Submitted data has been validated, we can store it now
     $lastinsertid = $DB->insert_record('block_simplehtml', $fromform, true);
@@ -78,7 +82,26 @@ if ($simplehtmlform->is_cancelled()) {
     // Redirect after save the data
     redirect(new moodle_url($CFG->wwwroot . '/course/view.php?id=' . $courseid));
 } else {
-    // Form didn't validate or this is the first display
+    // Form data didn't validate, display previous form data or prepare first display
+    if ($id != 0) {
+        // Ensure we have a valid simplehtml page id and can load the associated page
+        $toform = $DB->get_record('block_simplehtml', array('id' => $id), '*', MUST_EXIST);
+
+        $toform->displaytext = array(
+                'text'      => $toform->displaytext,
+                'format'    => $toform->format
+            );
+
+        $toform->attachments = $toform->fileareaid;
+    } else {
+        // Default page setup for first display
+        $toform = new stdClass();
+        $toform->blockid = $blockid;
+        $toform->courseid = $courseid;
+    }
+
+    $simplehtmlform->set_data($toform);
+
     echo $OUTPUT->header();
 
     $simplehtmlform->display();

@@ -29,7 +29,7 @@
  * @copyright  2015 Marcelo Carvalho
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class block_simplehtml extends block_list {
+class block_simplehtml extends block_base {
 
     public function init() {
         $this->title = get_string ( 'simplehtml', 'block_simplehtml' );
@@ -40,27 +40,43 @@ class block_simplehtml extends block_list {
             return $this->content;
         }
 
-        global $COURSE, $CFG;
+        global $COURSE, $CFG, $DB;
 
-        $this->content = new stdClass ();
-        $this->content->items  = array();
-        $this->content->icons  = array();
+        $this->content = new stdClass();
 
-        if (empty ( $this->config->text )) {
-            $this->content->text = get_string ( 'defaulttext', 'block_simplehtml' );
+        // Check user content config
+        if (empty ($this->config->text)) {
+            $this->content->text = get_string('defaulttext', 'block_simplehtml');
         } else {
             $this->content->text = $this->config->text;
+        }
 
-            if (get_config ( 'simplehtml', 'Allow_HTML' ) == '0') {
-                $this->content->text = strip_tags( $this->config->text );
+        $ultag = '';
+        $url = $CFG->wwwroot . '/blocks/simplehtml';
+
+        // List of previously saved pages
+        $simplehtmlpages = $DB->get_records('block_simplehtml', array('blockid' => $this->instance->id));
+
+        if (count($simplehtmlpages) > 0) {
+            foreach ($simplehtmlpages as $simplehtmlpage) {
+                $atag = html_writer::tag('a', $simplehtmlpage->pagetitle, array(
+                        'href' => $url .'/view.php?blockid=' . $this->instance->id .
+                        '&courseid='. $COURSE->id .
+                        '&id='. $simplehtmlpage->id));
+                $litag = html_writer::tag('li', $atag);
+                $ultag .= $litag;
             }
         }
 
-        $url = $CFG->wwwroot . '/blocks/simplehtml';
-        $this->content->items[] = html_writer::tag('a', 'Form test', array(
+        $this->content->text .= html_writer::tag('ul', $ultag);
+
+        $this->content->footer = html_writer::tag('a', 'Create a page', array(
                 'href' => $url .'/view.php?blockid=' . $this->instance->id . '&courseid='. $COURSE->id));
 
-        $this->content->footer = 'Footer here...';
+        // Check for admin global config
+        if (get_config('simplehtml', 'Allow_HTML') == '0') {
+            $this->content->text = strip_tags($this->config->text);
+        }
 
         return $this->content;
     }

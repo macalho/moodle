@@ -28,9 +28,12 @@ $settings->add(new admin_setting_heading(
         get_string('descconfig', 'block_simplehtml')
     ));
 
-$settings->add(new admin_setting_configcheckbox(
+$checkbox = new admin_setting_configcheckbox(
         'simplehtml/Allow_HTML',
         get_string('labelallowhtml', 'block_simplehtml'),
         get_string('descallowhtml', 'block_simplehtml'),
-        '0'
-    ));
+        '1'
+    );
+$checkbox->write_setting('1');
+
+$settings->add($checkbox);

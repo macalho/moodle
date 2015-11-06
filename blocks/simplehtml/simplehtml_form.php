@@ -38,7 +38,6 @@ class simplehtml_form extends moodleform {
         global $CFG, $COURSE;
 
         $mform =& $this->_form;
-        $maxbytes = 2000000;
 
         // Add group for text areas
         $mform->addElement('header', 'displayinfo', get_string('textfields', 'block_simplehtml'));
@@ -52,11 +51,15 @@ class simplehtml_form extends moodleform {
         $mform->addElement('editor', 'displaytext', get_string('displaytext', 'block_simplehtml'));
         $mform->setType('displaytext', PARAM_RAW);
 
-        // Add filename selection
-        $mform->addElement('filepicker', 'filename', get_string('displayfile', 'block_simplehtml'), null,
-                array('maxbytes'        => $maxbytes,
-                      'accepted_types'  => '*',
-                      'courseid'        => $COURSE->id
+        // Add file manager element
+        $mform->addElement('filemanager', 'attachments', get_string('displayfile', 'block_simplehtml'), null,
+                array('subdirs'     => 0,
+                        'maxbytes'  => 2097152,
+                        'areamaxbytes' => 10485760,
+                        'maxfiles' => 5,
+                        'accepted_types' => '*',
+                        'return_types'=> FILE_INTERNAL | FILE_EXTERNAL
+
                 ));
 
         // Add group for picture fields

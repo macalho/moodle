@@ -11,7 +11,7 @@
         <FIELD NAME="pagetitle" TYPE="char" LENGTH="25" NOTNULL="true" SEQUENCE="false" COMMENT="Title of the page to be displayed also used for the link the block"/>
         <FIELD NAME="displaytext" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Text displayed in the html page"/>
         <FIELD NAME="format" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Format for the textarea"/>
-        <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="File name of a file that we will choose from within moodle"/>
+        <FIELD NAME="fileareaid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="ID of the area used to store user files"/>
         <FIELD NAME="picture" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The name (as a int) of the picture the user selected"/>
         <FIELD NAME="description" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Text description of the page"/>
         <FIELD NAME="displaypicture" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Determines whether the selected picture is displayed or not"/>
