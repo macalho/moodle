@@ -25,14 +25,14 @@
 /**
  * The simplehtml block class definition.
  *
- * @package    block_simplehtml
- * @copyright  2015 Marcelo Carvalho
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package block_simplehtml
+ * @copyright 2015 Marcelo Carvalho
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_simplehtml extends block_base {
 
     public function init() {
-        $this->title = get_string ( 'simplehtml', 'block_simplehtml' );
+        $this->title = get_string('simplehtml', 'block_simplehtml');
     }
 
     public function get_content() {
@@ -45,7 +45,7 @@ class block_simplehtml extends block_base {
         $this->content = new stdClass();
 
         // Check user content config
-        if (empty ($this->config->text)) {
+        if (empty($this->config->text)) {
             $this->content->text = get_string('defaulttext', 'block_simplehtml');
         } else {
             $this->content->text = $this->config->text;
@@ -55,14 +55,23 @@ class block_simplehtml extends block_base {
         $url = $CFG->wwwroot . '/blocks/simplehtml';
 
         // List of previously saved pages
-        $simplehtmlpages = $DB->get_records('block_simplehtml', array('blockid' => $this->instance->id));
+        $simplehtmlpages = $DB->get_records('block_simplehtml', array(
+                'blockid' => $this->instance->id
+        ));
 
         if (count($simplehtmlpages) > 0) {
             foreach ($simplehtmlpages as $simplehtmlpage) {
+
                 $atag = html_writer::tag('a', $simplehtmlpage->pagetitle, array(
-                        'href' => $url .'/view.php?blockid=' . $this->instance->id .
-                        '&courseid='. $COURSE->id .
-                        '&id='. $simplehtmlpage->id));
+                        'href' => $url . '/view.php?id=' . $simplehtmlpage->id .
+                        '&courseid=' . $COURSE->id
+                ));
+
+                /*
+                $atag = html_writer::tag('a', $simplehtmlpage->pagetitle, array(
+                        'href' => $url . '/page.php?blockid=' . $this->instance->id .
+                        '&courseid=' . $COURSE->id . '&id=' . $simplehtmlpage->id
+                ));*/
                 $litag = html_writer::tag('li', $atag);
                 $ultag .= $litag;
             }
@@ -70,8 +79,9 @@ class block_simplehtml extends block_base {
 
         $this->content->text .= html_writer::tag('ul', $ultag);
 
-        $this->content->footer = html_writer::tag('a', 'Create a page', array(
-                'href' => $url .'/view.php?blockid=' . $this->instance->id . '&courseid='. $COURSE->id));
+        $this->content->footer = html_writer::tag('a', get_string('addpage', 'block_simplehtml'), array(
+                'href' => $url . '/page.php?blockid=' . $this->instance->id . '&courseid=' . $COURSE->id
+        ));
 
         // Check for admin global config
         if (get_config('simplehtml', 'Allow_HTML') == '0') {
@@ -82,15 +92,15 @@ class block_simplehtml extends block_base {
     }
 
     public function specialization() {
-        if (isset ( $this->config )) {
-            if (empty ( $this->config->title )) {
-                $this->title = get_string ( 'defaulttitle', 'block_simplehtml' );
+        if (isset($this->config)) {
+            if (empty($this->config->title)) {
+                $this->title = get_string('defaulttitle', 'block_simplehtml');
             } else {
                 $this->title = $this->config->title;
             }
 
-            if (empty ( $this->config->text )) {
-                $this->config->text = get_string ( 'defaulttext', 'block_simplehtml' );
+            if (empty($this->config->text)) {
+                $this->config->text = get_string('defaulttext', 'block_simplehtml');
             }
         }
     }
@@ -100,11 +110,11 @@ class block_simplehtml extends block_base {
     }
 
     public function instance_config_save($data, $nolongerused = false) {
-        if (get_config ( 'simplehtml', 'Allow_HTML' ) == '0') {
-            $data->text = strip_tags ( $data->text );
+        if (get_config('simplehtml', 'Allow_HTML') == '0') {
+            $data->text = strip_tags($data->text);
         }
 
         // And now forward to the default implementation defined in the parent class
-        return parent::instance_config_save ( $data );
+        return parent::instance_config_save($data);
     }
 }

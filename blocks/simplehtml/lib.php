@@ -25,10 +25,7 @@
 /**
  * Return a array with image elements to be selected by simple html page
  *
- * @package  block_simplehtml
- * @category block
- *
- * @return array
+ * @return array A list of images
  */
 function block_simplehtml_images() {
     global $CFG;
@@ -37,10 +34,84 @@ function block_simplehtml_images() {
             '<img src="' . $CFG->wwwroot . '/blocks/simplehtml/pix/picture2.gif" alt="'.get_string('green', 'block_simplehtml').'">');
 }
 
-/*
-function block_simplehtml_pluginfile($course, $context, $filearea, $args, $forcedownload, array $options=array()) {
+/**
+ * Print or return html content created from the Simple html page
+ * form, the elements inserted on that form are loaded and treated
+ * here to generate the html content.
+ *
+ * @param object $simplehtml The database record of one simple html page
+ * @param int $contextid The current context id
+ * @param bool $return Defines if this function prints or returns the content
+ * @return string HTML content as string
+ */
+function block_simplehtml_print_page($simplehtml, $contextid, $return = FALSE) {
+    global $CFG, $COURSE, $OUTPUT;
+
+    $output = '';
+    $br = html_writer::empty_tag('br');
+
+    $output .= $OUTPUT->heading($simplehtml->pagetitle, 2, 'main');
+
+    if ($simplehtml->displaydate) {
+        $output .= html_writer::div(userdate($simplehtml->displaydate));
+    }
+
+    $output .= $br;
+    $output .= $OUTPUT->box_start('generalbox');
+    $output .= clean_text($simplehtml->displaytext);
+
+    // Creating links of uploaded files
+    $links = array();
+    $fs = get_file_storage();
+    $files = $fs->get_area_files($contextid, 'block_simplehtml', 'page', $simplehtml->id);
+    foreach ($files as $file) {
+        $filename = $file->get_filename();
+        if ($filename !== '.') // removing the indication of the current folder
+        {
+            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
+                            $file->get_filearea(), $file->get_itemid(),
+                            $file->get_filepath(), $file->get_filename());
+            $links[] = html_writer::link($url, $filename);
+        }
+    }
+    $output .= implode($br, $links);
+
+    $output .= $OUTPUT->box_end();
+    $output .= $br;
+
+    if ($simplehtml->displaypicture) {
+        $images = block_simplehtml_images();
+        $output .= $OUTPUT->box_start('generalbox');
+        $output .= $images[$simplehtml->picture];
+        $output .= $br;
+        $output .= $simplehtml->description;
+        $output .= $OUTPUT->box_end();
+    }
+
+    if ($return) {
+        return $output;
+    } else {
+        echo $output;
+    }
+}
+
+/**
+ * Print or return html content created from the Simple html page
+ * form, the elements inserted on that form are loaded and treated
+ * here to generate the html content.
+ *
+ * @param object $course The database record of a course
+ * @param object $cm The course module object
+ * @param object $context The context_course object
+ * @param string $filearea One of the elements that helps identify a file area
+ * @param array $args Have items that helps locate a single file
+ * @param bool $forcedownload If true (default false), forces download of file rather than view in browser/plugin
+ * @param array $options additional options affecting the file serving
+ * @return string HTML content as string
+ */
+function block_simplehtml_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
     // Check the contextlevel is as expected
-    if ($context->contextlevel != CONTEXT_BLOCK) {
+    if ($context->contextlevel != CONTEXT_COURSE) {
         return false;
     }
 
@@ -49,18 +120,14 @@ function block_simplehtml_pluginfile($course, $context, $filearea, $args, $force
         return false;
     }
 
-    require_login($course, true);
+    require_login($course);
 
     // Check the relevant capabilities
     if (!has_capability('block/simplehtml:viewpages', $context)) {
         return false;
     }
 
-    // Leave this line out if you set the itemid to null in make_pluginfile_url (set $itemid to 0 instead).
-    //$itemid = array_shift($args); // The first item in the $args array.
-
-    // Use the itemid to retrieve any relevant data records and perform any security checks to see if the
-    // user really does have access to the file in question.
+    $itemid = array_shift($args); // The first item in the $args array.
 
     // Extract the filename / filepath from the $args array.
     $filename = array_pop($args); // The last item in the $args array.
@@ -80,4 +147,3 @@ function block_simplehtml_pluginfile($course, $context, $filearea, $args, $force
     // We can now send the file back to the browser - in this case with a cache lifetime of 1 day and no filtering.
     send_stored_file($file, 86400, 0, $forcedownload, $options);
 }
-*/

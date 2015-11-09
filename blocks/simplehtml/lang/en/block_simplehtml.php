@@ -28,6 +28,7 @@ $string['simplehtml'] = 'Simple HTML';
 $string['simplehtml:addinstance'] = 'Add a new simple HTML block';
 $string['simplehtml:myaddinstance'] = 'Add a new simple HTML block to the My Moodle page';
 $string['defaulttext'] = 'List of pages:';
+$string['addpage'] = 'Add a Page';
 $string['defaulvalue'] = 'Enter some text';
 
 // Config form (edit_form.php) strings

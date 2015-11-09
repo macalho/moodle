@@ -21,29 +21,28 @@
  * @copyright 2015 Marcelo Carvalho
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-require_once($CFG->libdir . '/formslib.php');
-require_once($CFG->dirroot . '/blocks/simplehtml/lib.php');
+require_once ($CFG->libdir . '/formslib.php');
+require_once ($CFG->dirroot . '/blocks/simplehtml/lib.php');
 
 /**
  * The simplehtml_form class definition.
  *
- * @package    block_simplehtml
- * @copyright  2015 Marcelo Carvalho
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package block_simplehtml
+ * @copyright 2015 Marcelo Carvalho
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class simplehtml_form extends moodleform {
 
     function definition() {
         global $CFG, $COURSE;
 
-        $mform =& $this->_form;
+        $mform = & $this->_form;
 
         // Add group for text areas
         $mform->addElement('header', 'displayinfo', get_string('textfields', 'block_simplehtml'));
 
         // Add page title element
-        $mform->addElement('text', 'pagetitle', get_string('formtitle','block_simplehtml'));
+        $mform->addElement('text', 'pagetitle', get_string('formtitle', 'block_simplehtml'));
         $mform->addRule('pagetitle', null, 'required', null, 'client');
         $mform->setType('pagetitle', PARAM_RAW);
 
@@ -52,15 +51,14 @@ class simplehtml_form extends moodleform {
         $mform->setType('displaytext', PARAM_RAW);
 
         // Add file manager element
-        $mform->addElement('filemanager', 'attachments', get_string('displayfile', 'block_simplehtml'), null,
-                array('subdirs'     => 0,
-                        'maxbytes'  => 2097152,
-                        'areamaxbytes' => 10485760,
-                        'maxfiles' => 5,
-                        'accepted_types' => '*',
-                        'return_types'=> FILE_INTERNAL | FILE_EXTERNAL
-
-                ));
+        $mform->addElement('filemanager', 'attachments', get_string('displayfile', 'block_simplehtml'), null, array(
+                'subdirs'           => 0,
+                'maxbytes'          => 2097152,
+                'areamaxbytes'      => 10485760,
+                'maxfiles'          => 5,
+                'accepted_types'    => '*',
+                'return_types'      => FILE_INTERNAL | FILE_EXTERNAL
+        ));
 
         // Add group for picture fields
         $mform->addElement('header', 'pictureinfo', get_string('picturefields', 'block_simplehtml'));
@@ -70,23 +68,23 @@ class simplehtml_form extends moodleform {
         // Add image selector radio buttons
         $images = block_simplehtml_images();
         $radioarray = array();
-        for ($i = 0; $i < count($images); $i++) {
-            $radioarray[] =&$mform->createElement('radio', 'picture', '', $images[$i], $i);
+        for($i = 0; $i < count($images); $i ++) {
+            $radioarray[] = &$mform->createElement('radio', 'picture', '', $images[$i], $i);
         }
-
         $mform->addGroup($radioarray, 'radioar', get_string('pictureselect', 'block_simplehtml'), array(' '), false);
 
         // Add description field
-        $attributes = array('size'=>'50', 'maxlength'=>'100');
+        $attributes = array('size' => '50', 'maxlength' => '100');
         $mform->addElement('text', 'description', get_string('picturedesc', 'block_simplehtml'), $attributes);
         $mform->setType('description', PARAM_TEXT);
         $mform->setAdvanced('pictureinfo');
 
         // Add group for optional fields
-        $mform->addElement('header', 'optional', get_string('optional','form'));
+        $mform->addElement('header', 'optional', get_string('optional', 'form'));
 
         // Add date_time selector in optional area
-        $mform->addElement('date_time_selector', 'displaydate', get_string('displaydate', 'block_simplehtml'), array('optional'=>true));
+        $mform->addElement('date_time_selector', 'displaydate',
+                        get_string('displaydate', 'block_simplehtml'), array('optional' => true));
         $mform->setAdvanced('optional');
 
         // Add hidden elements to store page parameters
