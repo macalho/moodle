@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 201510161804;
+$plugin->version   = 201510161806;
 $plugin->requires  = 2013111800;
 $plugin->cron      = 0;
 $plugin->component = 'block_simplehtml';

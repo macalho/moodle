@@ -34,7 +34,7 @@ require_once ($CFG->dirroot . '/blocks/simplehtml/lib.php');
 class simplehtml_form extends moodleform {
 
     function definition() {
-        global $CFG, $COURSE;
+        global $CFG;
 
         $mform = & $this->_form;
 
@@ -92,6 +92,8 @@ class simplehtml_form extends moodleform {
         $mform->setType('blockid', PARAM_INT);
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
+        $mform->addElement('hidden', 'id');
+        $mform->setType('id', PARAM_INT);
 
         // Add save and cancel buttons
         $this->add_action_buttons();

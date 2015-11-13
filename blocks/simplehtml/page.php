@@ -50,40 +50,74 @@ if ($simplehtmlform->is_cancelled()) {
     // Cancelled forms redirect to course main page
     redirect(new moodle_url($CFG->wwwroot . '/course/view.php?id=' . $courseid));
 } else if ($fromform = $simplehtmlform->get_data()) {
-    // Handling the 'displaytext' element data, it came as array,
-    // we must separate before store it or insert_record can't find the data correctly
-    $fromform->format = $fromform->displaytext['format'];
-    $fromform->displaytext = $fromform->displaytext['text'];
+    // Editing a existing page
+    if ($fromform->id != 0) {
+        // Handling the 'displaytext' element data, it came as array,
+        // we must separate before update, update_record can't store it as array
+        $fromform->format = $fromform->displaytext['format'];
+        $fromform->displaytext = $fromform->displaytext['text'];
 
-    // Saving the id of the file area where the files will be stored
-    $fromform->fileareaid = file_get_submitted_draft_itemid('attachments');
+        // Updating the id of the file area
+        $fromform->fileareaid = file_get_submitted_draft_itemid('attachments');
 
-    // Submitted data has been validated, we can store it now
-    $lastinsertid = $DB->insert_record('block_simplehtml', $fromform, true);
+        // Updating the page data
+        $DB->update_record('block_simplehtml', $fromform);
 
-    // Saving the uploaded files in a real file area, with the
-    // $lastinsertid parameter we can locate the files of this page later on
-    file_save_draft_area_files($fromform->attachments, $context->id,
-            'block_simplehtml', 'page', $lastinsertid, array(
-            'subdirs' => 0,
-            'maxbytes' => $maxbytes,
-            'maxfiles' => 5
-    ));
+        // Updating the file area data
+        file_save_draft_area_files($fromform->attachments, $context->id, 'block_simplehtml', 'page', $fromform->id, array(
+                'subdirs'   => 0,
+                'maxbytes'  => $maxbytes,
+                'maxfiles'  => 5
+        ));
 
-    // Create and dispatching the event to log the insert on the database
-    $event = \block_simplehtml\event\page_added::create(array(
-            // 'context' value is needed by \core\event\base
-            'context' => context_course::instance($courseid),
-            'userid' => $USER->id,
-            'objectid' => $lastinsertid,
-            'courseid' => $courseid,
-            'other' => array(
-                    'blockid' => $blockid,
-                    'triggeredfrom' => get_string('triggeredfrom', 'block_simplehtml')
-            )
-    ));
-    $event->trigger();
+        // Create and dispatching the event to log the update on the database
+        $event = \block_simplehtml\event\page_updated::create(array(
+                // 'context' value is needed by \core\event\base
+                'context'   => context_course::instance($courseid),
+                'userid'    => $USER->id,
+                'objectid'  => $fromform->id,
+                'courseid'  => $courseid,
+                'other'     => array(
+                        'blockid'       => $blockid,
+                        'triggeredfrom' => get_string('pluginname', 'block_simplehtml')
+                )
+        ));
+        $event->trigger();
+    // Creating a new page
+    } else {
+        // Handling the 'displaytext' element data, it came as array,
+        // we must separate before store it or insert_record can't find the data correctly
+        $fromform->format = $fromform->displaytext['format'];
+        $fromform->displaytext = $fromform->displaytext['text'];
 
+        // Saving the id of the file area where the files will be stored
+        $fromform->fileareaid = file_get_submitted_draft_itemid('attachments');
+
+        // Submitted data has been validated, we can store it now
+        $lastinsertid = $DB->insert_record('block_simplehtml', $fromform, true);
+
+        // Saving the uploaded files in a real file area, with the
+        // $lastinsertid parameter we can locate the files of this page later on
+        file_save_draft_area_files($fromform->attachments, $context->id, 'block_simplehtml', 'page', $lastinsertid, array(
+                'subdirs'   => 0,
+                'maxbytes'  => $maxbytes,
+                'maxfiles'  => 5
+        ));
+
+        // Create and dispatching the event to log the insert on the database
+        $event = \block_simplehtml\event\page_added::create(array(
+                // 'context' value is needed by \core\event\base
+                'context'   => context_course::instance($courseid),
+                'userid'    => $USER->id,
+                'objectid'  => $lastinsertid,
+                'courseid'  => $courseid,
+                'other'     => array(
+                        'blockid'       => $blockid,
+                        'triggeredfrom' => get_string('pluginname', 'block_simplehtml')
+                )
+        ));
+        $event->trigger();
+    }
     // Redirect after save the data
     redirect(new moodle_url($CFG->wwwroot . '/course/view.php?id=' . $courseid));
 } else {
@@ -93,8 +127,8 @@ if ($simplehtmlform->is_cancelled()) {
         $toform = $DB->get_record('block_simplehtml', array('id' => $id), '*', MUST_EXIST);
 
         $toform->displaytext = array(
-                'text' => $toform->displaytext,
-                'format' => $toform->format
+                'text'      => $toform->displaytext,
+                'format'    => $toform->format
         );
         // To load the files of the file area created for this page
         $toform->attachments = $toform->fileareaid;

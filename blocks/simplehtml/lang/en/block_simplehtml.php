@@ -25,11 +25,17 @@
 // Default base strings
 $string['pluginname'] = 'Simple HTML block';
 $string['simplehtml'] = 'Simple HTML';
-$string['simplehtml:addinstance'] = 'Add a new simple HTML block';
-$string['simplehtml:myaddinstance'] = 'Add a new simple HTML block to the My Moodle page';
 $string['defaulttext'] = 'List of pages:';
 $string['addpage'] = 'Add a Page';
+$string['editpage'] = 'Edit a Page';
+$string['deletepage'] = 'Delete a Page';
 $string['defaulvalue'] = 'Enter some text';
+
+// Strings for permissions and capabilities
+$string['simplehtml:addinstance'] = 'Add a new simple HTML block';
+$string['simplehtml:myaddinstance'] = 'Add a new simple HTML block to the My Moodle page';
+$string['simplehtml:viewpages'] = 'View Simple HTML Pages';
+$string['simplehtml:managepages'] = 'Manage Simple HTML Pages';
 
 // Config form (edit_form.php) strings
 $string['configtitle'] = 'Change block title';
@@ -55,8 +61,15 @@ $string['green'] = 'Green';
 $string['pictureselect'] = 'Select a Picture to Display';
 $string['picturedesc'] = 'Describe the picture you selected';
 $string['displaydate'] = 'Display Date';
-$string['triggeredfrom'] = 'Simple HTML page form';
+
+// Delete form strings
+$string['confirmdelete'] = 'Confirm Delete';
+$string['deletemessage'] = 'Do you really want to delete {$a->pagetitle}';
+$string['deleterror'] = 'The page could not be found';
+$string['sessionerror'] = 'The session key could not be found';
 
 // Event strings
 $string['page_added'] = 'A new page was added';
 $string['eventpageadded'] = 'Page Added';
+$string['eventpagedeleted'] = 'Page Deleted';
+$string['eventpageupdated'] = 'Page Updated';

@@ -22,9 +22,9 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once ('../../config.php');
-require_once ('simplehtml_form.php');
+require_once ($CFG->dirroot . '/blocks/simplehtml/lib.php');
 
-global $CFG, $USER, $DB;
+global $CFG, $DB;
 
 $id = required_param('id', PARAM_INT);
 $courseid = required_param('courseid', PARAM_INT);

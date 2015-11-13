@@ -15,7 +15,7 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Page added event
+ * Page deleted event
  *
  * @package block_simplehtml
  * @copyright 2015 Marcelo Carvalho
@@ -26,19 +26,19 @@ namespace block_simplehtml\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The page_added event class.
+ * The page_deleted event class.
  *
  * @property-read array $other {
  *      Extra information about event.
  *
- *      - string triggeredfrom: name of the element from where event was triggered.
+ *      - string triggeredfrom: name of the plugin from where event was triggered.
  * }
  *
  * @since     Moodle 2.6
  * @copyright 2015 Marcelo Carvalho
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- **/
-class page_added extends \core\event\base {
+**/
+class page_deleted extends \core\event\base {
 
     /**
      * Init method.
@@ -46,7 +46,7 @@ class page_added extends \core\event\base {
      * @return void
      */
     protected function init() {
-        $this->data['crud'] = 'c'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['crud'] = 'd'; // c(reate), r(ead), u(pdate), d(elete)
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'block_simplehtml';
     }
@@ -57,7 +57,7 @@ class page_added extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventpageadded', 'block_simplehtml');
+        return get_string('eventpagedeleted', 'block_simplehtml');
     }
 
     /**
@@ -67,7 +67,7 @@ class page_added extends \core\event\base {
      */
     public function get_description() {
         $triggeredfrom = $this->other['triggeredfrom'];
-        return "The user with id '$this->userid' has added a simple html page" .
+        return "The user with id '$this->userid' has deleted a simple html page" .
         " with id '$this->objectid' from '$triggeredfrom' on course id '$this->courseid'.";
     }
 
@@ -77,8 +77,8 @@ class page_added extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/blocks/simplehtml/page.php', array(
-                'blockid'   => $this->other['blockid'],
+        return new \moodle_url('/blocks/simplehtml/delete.php', array(
+                'id'        => $this->objectid,
                 'courseid'  => $this->courseid
         ));
     }
@@ -92,9 +92,7 @@ class page_added extends \core\event\base {
     protected function validate_data() {
         parent::validate_data();
 
-        if (!isset($this->other['blockid'])) {
-            throw new \coding_exception('The \'blockid\' value must be set in other.');
-        } else if (!isset($this->other['triggeredfrom'])) {
+        if (!isset($this->other['triggeredfrom'])) {
             throw new \coding_exception('The \'triggeredfrom\' value must be set in other.');
         }
     }

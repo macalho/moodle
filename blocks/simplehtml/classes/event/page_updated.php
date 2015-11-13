@@ -15,7 +15,7 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Page added event
+ * Page updated event
  *
  * @package block_simplehtml
  * @copyright 2015 Marcelo Carvalho
@@ -26,7 +26,7 @@ namespace block_simplehtml\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The page_added event class.
+ * The page_updated event class.
  *
  * @property-read array $other {
  *      Extra information about event.
@@ -37,8 +37,8 @@ defined('MOODLE_INTERNAL') || die();
  * @since     Moodle 2.6
  * @copyright 2015 Marcelo Carvalho
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- **/
-class page_added extends \core\event\base {
+**/
+class page_updated extends \core\event\base {
 
     /**
      * Init method.
@@ -46,7 +46,7 @@ class page_added extends \core\event\base {
      * @return void
      */
     protected function init() {
-        $this->data['crud'] = 'c'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'block_simplehtml';
     }
@@ -57,7 +57,7 @@ class page_added extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventpageadded', 'block_simplehtml');
+        return get_string('eventpageupdated', 'block_simplehtml');
     }
 
     /**
@@ -67,7 +67,7 @@ class page_added extends \core\event\base {
      */
     public function get_description() {
         $triggeredfrom = $this->other['triggeredfrom'];
-        return "The user with id '$this->userid' has added a simple html page" .
+        return "The user with id '$this->userid' has updated a simple html page" .
         " with id '$this->objectid' from '$triggeredfrom' on course id '$this->courseid'.";
     }
 

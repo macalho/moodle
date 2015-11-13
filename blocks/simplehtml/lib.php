@@ -84,7 +84,7 @@ function block_simplehtml_print_page($simplehtml, $contextid, $return = FALSE) {
         $output .= $OUTPUT->box_start('generalbox');
         $output .= $images[$simplehtml->picture];
         $output .= $br;
-        $output .= $simplehtml->description;
+        $output .= s($simplehtml->description);
         $output .= $OUTPUT->box_end();
     }
 
@@ -96,15 +96,15 @@ function block_simplehtml_print_page($simplehtml, $contextid, $return = FALSE) {
 }
 
 /**
- * Print or return html content created from the Simple html page
- * form, the elements inserted on that form are loaded and treated
- * here to generate the html content.
+ * Implementation of the plugin/block function to serve files
+ * uploaded by users on this block as said in Moodle
+ * documentation {@link https://docs.moodle.org/dev/File_API}.
  *
  * @param object $course The database record of a course
  * @param object $cm The course module object
  * @param object $context The context_course object
  * @param string $filearea One of the elements that helps identify a file area
- * @param array $args Have items that helps locate a single file
+ * @param array $args Items that helps locate a single file
  * @param bool $forcedownload If true (default false), forces download of file rather than view in browser/plugin
  * @param array $options additional options affecting the file serving
  * @return string HTML content as string
